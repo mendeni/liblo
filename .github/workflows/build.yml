@@ -1,0 +1,73 @@
+# Unified build for Linux, macOS and Windows
+name: LibLO — Build (matrix)
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    name: Build (${{ matrix.platform }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            platform: linux
+          - os: macos-latest
+            platform: macos
+          - os: windows-latest
+            platform: windows
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies (Linux)
+        if: matrix.platform == 'linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake libtool m4 pkg-config perl
+
+      - name: Install GNU autotools (macOS)
+        if: matrix.platform == 'macos'
+        run: |
+          brew update
+          brew install libtool m4
+
+      - name: Configure (Linux)
+        if: matrix.platform == 'linux'
+        run: |
+          ./configure CC="gcc" --enable-static --disable-shared --disable-doc
+        shell: bash
+
+      - name: Configure (macOS)
+        if: matrix.platform == 'macos'
+        run: |
+          ./configure CC="gcc" CFLAGS="-arch x86_64 -arch arm64 -mmacosx-version-min=10.9 -isysroot $(xcrun --sdk macosx --show-sdk-path)" --enable-static --disable-shared --disable-doc
+        shell: bash
+
+      - name: Build & Test
+        run: |
+          make
+        shell: bash
+
+      - name: Move liblo.a
+        run: |
+          mv -v .libs/liblo.a libolo.a
+        shell: bash
+
+      - name: Upload libopus.a and headers (Linux/macOS)
+        if: matrix.platform != 'windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: liblo-${{ runner.os }}
+          path: |
+            liblo.a
+            lo/lo_endian.h
+            lo/lo_types.h
+            lo/lo_osc_types.h
+            lo/lo_errors.h
+            lo/lo_lowlevel.h
+            lo/lo_serverthread.h
+
