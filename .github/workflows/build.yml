@@ -1,4 +1,4 @@
-# Unified build for Linux, macOS and Windows
+# Unified build for Linux, macOS
 name: LibLO — Build (matrix)
 
 on:
@@ -16,8 +16,6 @@ jobs:
             platform: linux
           - os: macos-latest
             platform: macos
-          - os: windows-latest
-            platform: windows
 
     steps:
       - name: Checkout code
@@ -58,7 +56,6 @@ jobs:
         shell: bash
 
       - name: Upload libopus.a and headers (Linux/macOS)
-        if: matrix.platform != 'windows'
         uses: actions/upload-artifact@v4
         with:
           name: liblo-${{ runner.os }}
