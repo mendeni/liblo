@@ -52,7 +52,7 @@ jobs:
 
       - name: Move liblo.a
         run: |
-          mv -v ./src/.libs/liblo.a libolo.a
+          mv -v ./src/.libs/liblo.a liblo.a
         shell: bash
 
       - name: Upload libopus.a and headers (Linux/macOS)
