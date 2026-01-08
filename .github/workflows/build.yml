@@ -50,14 +50,7 @@ jobs:
           make
         shell: bash
 
-      - name: Move liblo.a (MacOS)
-        if: matrix.platform == 'macos'
-        run: |
-          mv -v .libs/liblo.a libolo.a
-        shell: bash
-
-      - name: Move liblo.a (Linux)
-        if: matrix.platform == 'linux'
+      - name: Move liblo.a
         run: |
           mv -v ./src/.libs/liblo.a libolo.a
         shell: bash
