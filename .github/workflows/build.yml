@@ -47,6 +47,14 @@ jobs:
           ./configure CC="gcc" CFLAGS="-arch x86_64 -arch arm64 -mmacosx-version-min=10.9 -isysroot $(xcrun --sdk macosx --show-sdk-path)" --enable-static --disable-shared --disable-doc
         shell: bash
 
+      - name: Find (Windows only)
+        if: matrix.platform == 'windows'
+        shell: bash
+        run: |
+          pwd
+          cp src/CMakeLists.txt .
+          find . -type f
+
       - name: Configure and Build (Windows)
         if: matrix.platform == 'windows'
         run: |
