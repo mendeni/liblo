@@ -1,4 +1,4 @@
-# Unified build for Linux, macOS
+# Unified build for Linux, macOS, Windows
 name: LibLO — Build (matrix)
 
 on:
@@ -16,6 +16,8 @@ jobs:
             platform: linux
           - os: macos-latest
             platform: macos
+          - os: windows-latest
+            platform: windows
 
     steps:
       - name: Checkout code
@@ -45,22 +47,51 @@ jobs:
           ./configure CC="gcc" CFLAGS="-arch x86_64 -arch arm64 -mmacosx-version-min=10.9 -isysroot $(xcrun --sdk macosx --show-sdk-path)" --enable-static --disable-shared --disable-doc
         shell: bash
 
+      - name: Configure (Windows)
+        if: matrix.platform == 'windows'
+        run: |
+          ./configure CC="gcc" --enable-static --disable-shared --disable-doc
+        shell: bash
+
       - name: Build & Test
         run: |
           make
         shell: bash
 
       - name: Move liblo.a
+        if: matrix.platform == 'windows'
         run: |
           mv -v ./src/.libs/liblo.a liblo.a
         shell: bash
 
-      - name: Upload libopus.a and headers (Linux/macOS)
+      - name: Find (Windows only)
+        if: matrix.platform == 'windows'
+        shell: bash
+        run: |
+          pwd
+          find . -type f
+
+      - name: Upload liblo.a and headers (Linux/macOS)
+        if: matrix.platform != 'windows'
         uses: actions/upload-artifact@v4
         with:
           name: liblo-${{ runner.os }}
           path: |
             liblo.a
+            lo/lo_endian.h
+            lo/lo_types.h
+            lo/lo_osc_types.h
+            lo/lo_errors.h
+            lo/lo_lowlevel.h
+            lo/lo_serverthread.h
+
+      - name: Upload liblo.lib and headers (Windows)
+        if: matrix.platform == 'windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: liblo-${{ runner.os }}
+          path: |
+            build/Release/liblo.lib
             lo/lo_endian.h
             lo/lo_types.h
             lo/lo_osc_types.h
