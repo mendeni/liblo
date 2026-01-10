@@ -51,7 +51,7 @@ jobs:
         if: matrix.platform == 'windows'
         run: |
            mkdir build/liblo
-           cmake source/liblo/cmake
+           cmake cmake
            make
         shell: bash
 
