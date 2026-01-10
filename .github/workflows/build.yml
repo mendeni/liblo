@@ -50,7 +50,9 @@ jobs:
       - name: Configure (Windows)
         if: matrix.platform == 'windows'
         run: |
-          ./configure CC="gcc" --enable-static --disable-shared --disable-doc
+           mkdir build/liblo
+           cmake source/liblo/cmake
+           make
         shell: bash
 
       - name: Build & Test
