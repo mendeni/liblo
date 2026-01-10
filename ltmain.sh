@@ -459,7 +459,7 @@ case $progpath in
   *[\\/]*)
      progdir=`$ECHO "$progpath" |$SED "$sed_dirname"`
      progdir=`cd "$progdir" && pwd`
-     progpath=$progdir/$progname
+     progpath="$progdir/$progname"
      ;;
   *)
      _G_IFS=$IFS
@@ -470,7 +470,7 @@ case $progpath in
      done
      IFS=$_G_IFS
      test -n "$progdir" || progdir=`pwd`
-     progpath=$progdir/$progname
+     progpath="$progdir/$progname"
      ;;
 esac
 
@@ -4167,12 +4167,12 @@ func_mode_execute ()
 	if func_ltwrapper_script_p "$file"; then
 	  func_source "$file"
 	  # Transform arg to wrapped name.
-	  file=$progdir/$program
+	  file="$progdir/$program"
 	elif func_ltwrapper_executable_p "$file"; then
 	  func_ltwrapper_scriptname "$file"
 	  func_source "$func_ltwrapper_scriptname_result"
 	  # Transform arg to wrapped name.
-	  file=$progdir/$program
+	  file="$progdir/$program"
 	fi
 	;;
       esac
@@ -4797,7 +4797,7 @@ func_mode_install ()
     if test -n "$current_libdirs"; then
       # Maybe just do a dry run.
       $opt_dry_run && current_libdirs=" -n$current_libdirs"
-      exec_cmd='$SHELL "$progpath" $preserve_args --finish$current_libdirs'
+      exec_cmd='"$SHELL" "$progpath" $preserve_args --finish$current_libdirs'
     else
       exit $EXIT_SUCCESS
     fi
@@ -11040,7 +11040,7 @@ EOF
       done
       # Quote the link command for shipping.
       func_quote eval cd "`pwd`"
-      relink_command="($func_quote_result; $SHELL \"$progpath\" $preserve_args --mode=relink $libtool_args @inst_prefix_dir@)"
+      relink_command="($func_quote_result; \"\$SHELL\" \"$progpath\" $preserve_args --mode=relink $libtool_args @inst_prefix_dir@)"
       func_quote_arg pretty,unquoted "$relink_command"
       relink_command=$func_quote_arg_unquoted_result
       if test yes = "$hardcode_automatic"; then
