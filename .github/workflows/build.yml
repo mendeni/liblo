@@ -50,9 +50,9 @@ jobs:
       - name: Configure (Windows)
         if: matrix.platform == 'windows'
         run: |
-           mkdir build/liblo
-           cmake cmake
-           make
+          mkdir build
+          cmake -S . -B build -G "MinGW Makefiles"
+          cmake --build build
         shell: bash
 
       - name: Build & Test
