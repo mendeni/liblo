@@ -205,6 +205,16 @@ if (WITH_TOOLS)
   add_executable(${OSCSENDFILE} ${OSCSENDFILE_SOURCES})
 endif()
 
+if (WITH_TOOLS)
+  foreach(PROG ${TOOLS})
+    if(CMAKE_SYSTEM_NAME MATCHES "Windows")
+      target_link_libraries(${PROG} PUBLIC ${LIBRARY_STATIC} wsock32 ws2_32 iphlpapi)
+    else()
+      target_link_libraries(${PROG} PUBLIC ${LIBRARY_SHARED})
+    endif()
+  endforeach()
+endif()
+
 # Tests
 if (WITH_TESTS)
   add_executable(${TESTLO} ${TESTLO_SOURCES})
