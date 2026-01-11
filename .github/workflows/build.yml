@@ -57,7 +57,7 @@ jobs:
       - name: Configure and Build (Windows)
         if: matrix.platform == 'windows'
         run: |
-          cmake -S cmake/ -B build --config Release
+          cmake -S cmake/ -B build
           cmake --build build
 
       - name: Build & Test (Linux/macOS)
