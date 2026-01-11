@@ -59,7 +59,6 @@ jobs:
         run: |
           cmake -S cmake/ -B build -G "MinGW Makefiles"
           cmake --build build
-        shell: bash
 
       - name: Build & Test (Linux/macOS)
         if: matrix.platform != 'windows'
