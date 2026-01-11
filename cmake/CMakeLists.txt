@@ -307,8 +307,8 @@ foreach(PROG ${PROGRAMS})
         "$<BUILD_INTERFACE:${LO_BUILD_INCLUDE_DIRS}>"
         "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
   if(CMAKE_SYSTEM_NAME MATCHES "Windows")
-    # For some yet unknown reasons, Windows has trouble finding the DLL
-    target_link_libraries(${PROG} PUBLIC ${LIBRARY_STATIC})
+    # Link with all necessary libraries explicitly on Windows, and use static for tools/tests/examples
+    target_link_libraries(${PROG} PUBLIC ${LIBRARY_STATIC} wsock32 ws2_32 iphlpapi)
   else()
     target_link_libraries(${PROG} PUBLIC ${LIBRARY_SHARED})
   endif()
