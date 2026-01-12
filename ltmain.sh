@@ -535,10 +535,10 @@ func_require_term_colors ()
 
       if test 1 = "$USE_ANSI_COLORS"; then
         # Standard ANSI escape sequences
-        tc_reset='[0m'
-        tc_bold='[1m';   tc_standout='[7m'
-        tc_red='[31m';   tc_green='[32m'
-        tc_blue='[34m';  tc_cyan='[36m'
+        tc_reset='[0m'
+        tc_bold='[1m';   tc_standout='[7m'
+        tc_red='[31m';   tc_green='[32m'
+        tc_blue='[34m';  tc_cyan='[36m'
       else
         # Otherwise trust the terminfo database after all.
         test -n "`tput sgr0 2>/dev/null`" && {
