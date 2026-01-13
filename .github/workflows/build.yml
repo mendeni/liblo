@@ -57,7 +57,7 @@ jobs:
       - name: Configure and Build (Windows)
         if: matrix.platform == 'windows'
         run: |
-          mv cmake/CMakeLists-win.txt CMakeLists.txt
+          mv cmake/CMakeLists-win.txt cmake/CMakeLists.txt
           cmake -S cmake/ -B build
           cmake --build build --config Release
 
