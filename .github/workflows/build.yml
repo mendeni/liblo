@@ -68,8 +68,8 @@ jobs:
           make
         shell: bash
 
-      - name: Move liblo.a
-        if: matrix.platform == 'windows'
+      - name: Move liblo.a (Linux/macOS)
+        if: matrix.platform != 'windows'
         run: |
           mv -v ./src/.libs/liblo.a liblo.a
         shell: bash
