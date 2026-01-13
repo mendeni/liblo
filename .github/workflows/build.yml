@@ -58,7 +58,7 @@ jobs:
         if: matrix.platform == 'windows'
         run: |
           cmake -S cmake/ -B build
-          cmake --build build
+          cmake --build build -DWITH_TOOLS=OFF -DWITH_TESTS=OFF -DWITH_EXAMPLES=OFF -DWITH_CPP_TESTS -DWITH_STATIC=ON
 
       - name: Build & Test (Linux/macOS)
         if: matrix.platform != 'windows'
