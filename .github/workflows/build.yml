@@ -57,8 +57,9 @@ jobs:
       - name: Configure and Build (Windows)
         if: matrix.platform == 'windows'
         run: |
+          mv cmake/CMakeLists-win.txt CMakeLists.txt
           cmake -S cmake/ -B build
-          cmake --build build -DWITH_TOOLS=OFF -DWITH_TESTS=OFF -DWITH_EXAMPLES=OFF -DWITH_CPP_TESTS -DWITH_STATIC=ON
+          cmake --build build --config Release
 
       - name: Build & Test (Linux/macOS)
         if: matrix.platform != 'windows'
@@ -100,6 +101,7 @@ jobs:
           name: liblo-${{ runner.os }}
           path: |
             build/Release/liblo.lib
+            build/Release/liblo_static.lib
             lo/lo_endian.h
             lo/lo_types.h
             lo/lo_osc_types.h
